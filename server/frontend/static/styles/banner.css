@@ -1,0 +1,65 @@
+.banner {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+  
+.banner-fade {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 50%; 
+  height: 770px;
+  background: rgba(65, 65, 65, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-text {
+  color: white;
+  font-size: 96px;
+  font-weight: bold;
+  position: absolute;
+  left: 15%;
+}
+
+.banner-text:nth-child(1) {
+  top: 20%;
+}
+
+.banner-text:nth-child(2) {
+  top: 25%;
+}
+
+.banner-text:nth-child(3) {
+  top: 35%;
+}
+
+.banner-subtext {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    position: relative;
+    left: 5%;
+}
+
+.banner-button {
+  background-color: rgba(140, 0, 0, 0.8);
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 21px; 
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: background-color 0.3s ease;
+}
+
+.banner-button:hover {
+  border: 2px solid rgba(140, 0, 0);
+  background-color: rgba(140, 0, 0);
+}
