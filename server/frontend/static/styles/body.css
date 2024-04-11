@@ -1,4 +1,5 @@
 .body-container {
+    position: relative;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -15,7 +16,7 @@
     padding-top: 30px;
     padding-bottom: 30px;
     position: absolute;
-    left: 15%;
+    left: -10%;
 }
 
 .team-member {
@@ -43,4 +44,31 @@
 
 .member-info {
     flex-grow: 1;
+}
+
+.info-block {
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+}
+
+.icon-image {
+    filter: invert(50%);
+    width: 25px;
+    height: 25px;
+    margin-top: -2px;
+    margin-right: 10px;
+}
+
+.info-content {
+    display: flex; 
+    flex-direction: column; 
+}
+
+.info-content h3 {
+    margin-bottom: 10px;
+}
+
+.info-content p:not(:first-child) {
+    margin-top: -10px;
 }
