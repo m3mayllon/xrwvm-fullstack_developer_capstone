@@ -1,0 +1,70 @@
+.banner {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    width: 100%;
+  }
+  
+.banner-fade {
+  position: absolute;
+  top: 0;
+  left: 10%;
+  width: 50%; 
+  height: 100%;
+  background: rgba(65, 65, 65, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.banner-text {
+  color: white;
+  font-size: 7vw;
+  font-weight: bold;
+  position: absolute;
+  left: 15%;
+  top: 20%;
+}
+
+.banner-text:nth-child(1) {
+  top: 20%;
+}
+
+.banner-text:nth-child(2) {
+  top: 25%;
+}
+
+.banner-text:nth-child(3) {
+  top: 35%;
+}
+
+.banner-subtext {
+    color: white;
+    font-size: 1.2vw;
+    font-weight: bold;
+    position: relative;
+}
+
+.banner-button {
+  background-color: rgba(140, 0, 0, 0.8);
+  color: white;
+  border: none;
+  padding: 1.5vw 3vw;
+  font-size: 2vw;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  left: 65%;
+  transition: background-color 0.3s ease;
+}
+
+.banner-button:hover {
+  border: 2px solid rgba(140, 0, 0);
+  background-color: rgba(140, 0, 0);
+}
+
+img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
