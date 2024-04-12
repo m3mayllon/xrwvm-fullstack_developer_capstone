@@ -46,7 +46,7 @@
 }
 
 .banner-button {
-  background-color: rgba(140, 0, 0, 0.8);
+  background-color: rgba(104, 85, 224, 0.8);
   color: white;
   border: none;
   padding: 1.5vw 3vw;
@@ -59,8 +59,8 @@
 }
 
 .banner-button:hover {
-  border: 2px solid rgba(140, 0, 0);
-  background-color: rgba(140, 0, 0);
+  background-color: rgba(104, 85, 224, 1);
+  box-shadow: 0 0 20px rgba(104, 85, 224, 1);
 }
 
 img {
