@@ -41,10 +41,6 @@ const Login = () => {
     setPassword('');
   };
 
-  const handleRegister = () => {
-    // register logic
-  };
-
   return (
     <html lang='en-US'>
       <head>
@@ -114,7 +110,7 @@ const Login = () => {
             </div>
 
             <div className='register-link'>
-              <a href='/register' onClick={handleRegister}>Register</a>
+              <a href='/register'>Register</a>
             </div>
           </form>
         </div>

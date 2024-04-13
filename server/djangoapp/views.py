@@ -1,27 +1,61 @@
-# Uncomment the required imports before adding the code
-
 # from django.shortcuts import render
 # from django.http import HttpResponseRedirect, HttpResponse
-# from django.contrib.auth.models import User
+
 # from django.shortcuts import get_object_or_404, render, redirect
-# from django.contrib.auth import logout
 # from django.contrib import messages
 # from datetime import datetime
 
-from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
 import logging
 import json
-from django.views.decorators.csrf import csrf_exempt
+
+
 # from .populate import initiate
 
 
-# Get an instance of a logger
 logger = logging.getLogger(__name__)
 
 
 @csrf_exempt
-def login_user(request):
+def user_registration(request):
+
+    data = json.loads(request.body)
+    username = data['username']
+    email = data['email']
+    password = data['password']
+    first_name = data['firstName']
+    last_name = data['lastName']
+
+    # check if user/email already exists
+    username_exist = User.objects.filter(username=username).exists()
+    email_exist = User.objects.filter(email=email).exists()
+
+    if not username_exist and not email_exist:
+        # create user
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password,
+            first_name=first_name,
+            last_name=last_name
+        )
+
+        # login user
+        login(request, user)
+        data = {'username': username, 'status': 'Authenticated'}
+        return JsonResponse(data)
+
+    else:
+        data = {'username': username, 'error': 'Already registered'}
+        return JsonResponse(data)
+
+
+@csrf_exempt
+def user_login(request):
 
     data = json.loads(request.body)
     username = data['username']
@@ -39,7 +73,7 @@ def login_user(request):
     return JsonResponse(data)
 
 
-def logout_user(request):
+def user_logout(request):
 
     # logout the user
     logout(request)
@@ -47,11 +81,6 @@ def logout_user(request):
 
     return JsonResponse(data)
 
-
-# Create a `registration` view to handle sign up request
-# @csrf_exempt
-# def registration(request):
-# ...
 
 # # Update the `get_dealerships` view to render the index page with
 # a list of dealerships
