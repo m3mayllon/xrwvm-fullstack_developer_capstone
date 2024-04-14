@@ -13,8 +13,8 @@ from django.views.decorators.csrf import csrf_exempt
 import logging
 import json
 
-
-# from .populate import initiate
+from .models import CarMake, CarModel
+from .populate import initiate_cars
 
 
 logger = logging.getLogger(__name__)
@@ -98,3 +98,34 @@ def user_logout(request):
 # Create a `add_review` view to submit a review
 # def add_review(request):
 # ...
+
+def get_cars(request):
+
+    # check if data exists in CarModel
+    if not CarModel.objects.exists():
+        initiate_cars()
+
+    # fetch CarModel objects
+    car_models = CarModel.objects.select_related('car_make').values(
+        'name', 'car_make__name', 'body_style', 'year', 'milage', 'transmission', 'drivetrain', 'exterior_colour')
+
+    data = {}
+    for car in car_models:
+        car_make = car['car_make__name']
+
+        car_model = {
+            'model': car['name'],
+            'body': car['body_style'],
+            'year': car['year'],
+            'milage': car['milage'],
+            'transmission': car['transmission'],
+            'drivetrain': car['drivetrain'],
+            'colour': car['exterior_colour']
+        }
+
+        if car_make in data:
+            data[car_make].append(car_model)
+        else:
+            data[car_make] = [car_model]
+
+    return JsonResponse({'make': data})
