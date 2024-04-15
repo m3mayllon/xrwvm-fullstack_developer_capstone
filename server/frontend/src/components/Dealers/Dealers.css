@@ -1,0 +1,19 @@
+.id-column {
+    width: 5%;
+    text-align: left;
+}
+
+.tiny-column {
+    width: 10%;
+    text-align: left;
+}
+
+.small-column {
+    width: 15%;
+    text-align: left;
+}
+
+.long-column {
+    width: 25%;
+    text-align: left;
+}

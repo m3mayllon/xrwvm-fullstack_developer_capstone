@@ -94,7 +94,7 @@ const Register = () => {
           </header>
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '100px' }}>
+        <div className='main-container'>
           <form style={{ textAlign: 'center', width: '300px' }}>
             
             <div style={{ marginBottom: '20px' }}>
