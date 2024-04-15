@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { fetchDealers, fetchDealersByState } from '../../APIs.js';
 import './Dealers.css';
+import write_review_icon from '../assets/write-review.png'
 
 
 const Dealers = () => {
@@ -115,7 +116,7 @@ return(
                   {statesList.sort().map(state => (<option value={state}>{state}</option>))}
               </select>
             </th>
-            {loggedIn ? (<th className='id-column'>Review</th>):<></>}
+            {loggedIn ? (<th className='id-column'></th>):<></>}
           </tr>
 
           {dealersList.map(dealer => (
@@ -126,7 +127,7 @@ return(
               <td>{dealer['city']}</td>
               <td>{dealer['zip']}</td>
               <td>{dealer['state']}</td>
-              {loggedIn ? (<td><a href={`/postreview/${dealer['id']}`}>Review-Icon</a></td>):<></>}
+              {loggedIn ? (<td><a href={`/postreview/${dealer['id']}`}><img className='icon-image' src={write_review_icon} alt='write review'></img></a></td>):<></>}
             </tr>
           ))}
         </table>
