@@ -122,7 +122,7 @@ return(
           {dealersList.map(dealer => (
             <tr>
               <td>{dealer['id']}</td>
-              <td><a href={'/dealer/'+dealer['id']}>{dealer['full_name']}</a></td>
+              <td><a className='dealer-item' href={'/dealer/'+dealer['id']}>{dealer['full_name']}</a></td>
               <td>{dealer['address']}</td>
               <td>{dealer['city']}</td>
               <td>{dealer['zip']}</td>

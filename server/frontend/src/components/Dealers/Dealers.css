@@ -17,3 +17,13 @@
     width: 25%;
     text-align: left;
 }
+
+.dealer-item {
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.dealer-item:hover {
+    color: rgba(104, 85, 224, 1);
+    text-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+}
