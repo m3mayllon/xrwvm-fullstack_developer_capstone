@@ -15,6 +15,7 @@ import json
 
 from .models import CarMake, CarModel
 from .populate import initiate_cars
+from .restapis import get_request
 
 
 logger = logging.getLogger(__name__)
@@ -82,23 +83,6 @@ def user_logout(request):
     return JsonResponse(data)
 
 
-# # Update the `get_dealerships` view to render the index page with
-# a list of dealerships
-# def get_dealerships(request):
-# ...
-
-# Create a `get_dealer_reviews` view to render the reviews of a dealer
-# def get_dealer_reviews(request,dealer_id):
-# ...
-
-# Create a `get_dealer_details` view to render the dealer details
-# def get_dealer_details(request, dealer_id):
-# ...
-
-# Create a `add_review` view to submit a review
-# def add_review(request):
-# ...
-
 def get_cars(request):
 
     # check if data exists in CarModel
@@ -129,3 +113,50 @@ def get_cars(request):
             data[car_make] = [car_model]
 
     return JsonResponse({'make': data})
+
+
+def get_dealerships(request, state='All'):
+
+    # sanitize input state
+    state = state if isinstance(state, str) else 'All'
+    if state == 'All':
+        endpoint = '/fetchDealers'
+    else:
+        endpoint = f'/fetchDealers/{state}'
+
+    # retrieve dealerships data
+    dealerships = get_request(endpoint)
+    if not dealerships:
+        return JsonResponse({'status': 500, 'message': 'Failed to retrieve dealerships data'})
+
+    return JsonResponse({'status': 200, 'dealers': dealerships})
+
+
+def get_dealer_details(request, dealer_id):
+
+    # validate input dealer_id
+    if not dealer_id:
+        return JsonResponse({'status': 400, 'message': 'Bad Request'})
+
+    try:
+        dealer_id = int(dealer_id)
+    except ValueError:
+        return JsonResponse({'status': 400, 'message': 'Invalid dealer ID'})
+
+    # retrieve dealership data
+    endpoint = f'/fetchDealer/{dealer_id}'
+    dealership = get_request(endpoint)
+    if not dealership:
+        return JsonResponse({'status': 500, 'message': 'Failed to retrieve dealership data'})
+
+    return JsonResponse({'status': 200, 'dealer': dealership})
+
+
+# Create a `get_dealer_reviews` view to render the reviews of a dealer
+# def get_dealer_reviews(request,dealer_id):
+# ...
+
+
+# Create a `add_review` view to submit a review
+# def add_review(request):
+# ...
