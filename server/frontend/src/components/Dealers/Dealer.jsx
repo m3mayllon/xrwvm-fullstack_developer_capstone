@@ -143,7 +143,7 @@ return(
               <div className='review'>"{review.review}"</div>
               <div className='review-footer'>
                 <div className='vehicle'>{review.car_make} {review.car_model} {review.car_year}</div>
-                <div className='reviewer'>{review.name}, {review.purchase_date}</div>
+                <div className='reviewer'>{review.name}, purchased on {review.purchase_date}</div>
               </div>
             </div>
           ))}
