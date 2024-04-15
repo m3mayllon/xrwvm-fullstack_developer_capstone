@@ -1,0 +1,51 @@
+.reviews-panel {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.review-panel {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(104, 85, 224, 1);
+    border-radius: 5px;
+    width: 300px;
+    height: 180px;
+    margin: 10px;
+    padding: 10px;
+}
+
+.review-panel:hover {
+    box-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
+}
+
+.review {
+    margin-top: 10px;
+    font-size: 20px;
+    text-align: center;
+    overflow: hidden; 
+}
+
+.review-sentiment {
+    margin-left: 10px;
+}
+
+.review-footer {
+    margin-top: auto;
+}
+
+.vehicle {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.sentiment-icon {
+    width: 20px;
+    height: auto;
+    margin-bottom: 5px;
+}
+
+.post-review-icon {
+    width: 50px;
+    height: auto;
+}
