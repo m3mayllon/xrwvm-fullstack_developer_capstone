@@ -5,18 +5,18 @@
 # from django.contrib import messages
 # from datetime import datetime
 
+import logging
+import json
+from json import JSONDecodeError
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import logging
-import json
-
 from .decorators import validate_dealer_id
 from .models import CarMake, CarModel
 from .populate import initiate_cars
-from .restapis import get_request, analyze_reviews_sentiments
+from .restapis import get_request, analyze_reviews_sentiments, post_review
 
 
 logger = logging.getLogger(__name__)
@@ -166,6 +166,18 @@ def get_dealer_reviews(request, dealer_id):
     return JsonResponse({'status': 200, 'reviews': reviews})
 
 
-# Create a `add_review` view to submit a review
-# def add_review(request):
-# ...
+def add_review(request):
+
+    if not request.user.is_authenticated:
+        return JsonResponse({'status': 401, 'message': 'Unauthorized'})
+
+    try:
+        data = json.loads(request.body)
+        response = post_review(data)
+        return JsonResponse({'status': 200})
+
+    except JSONDecodeError:
+        return JsonResponse({'status': 400, 'message': 'Invalid JSON data'})
+
+    except Exception as exc:
+        return JsonResponse({'status': 500, 'message': f'Error in posting review: {str(exc)}'})
