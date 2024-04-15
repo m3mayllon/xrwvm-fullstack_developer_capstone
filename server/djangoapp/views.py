@@ -13,9 +13,10 @@ from django.views.decorators.csrf import csrf_exempt
 import logging
 import json
 
+from .decorators import validate_dealer_id
 from .models import CarMake, CarModel
 from .populate import initiate_cars
-from .restapis import get_request
+from .restapis import get_request, analyze_reviews_sentiments
 
 
 logger = logging.getLogger(__name__)
@@ -132,16 +133,8 @@ def get_dealerships(request, state='All'):
     return JsonResponse({'status': 200, 'dealers': dealerships})
 
 
+@validate_dealer_id
 def get_dealer_details(request, dealer_id):
-
-    # validate input dealer_id
-    if not dealer_id:
-        return JsonResponse({'status': 400, 'message': 'Bad Request'})
-
-    try:
-        dealer_id = int(dealer_id)
-    except ValueError:
-        return JsonResponse({'status': 400, 'message': 'Invalid dealer ID'})
 
     # retrieve dealership data
     endpoint = f'/fetchDealer/{dealer_id}'
@@ -152,9 +145,25 @@ def get_dealer_details(request, dealer_id):
     return JsonResponse({'status': 200, 'dealer': dealership})
 
 
-# Create a `get_dealer_reviews` view to render the reviews of a dealer
-# def get_dealer_reviews(request,dealer_id):
-# ...
+@validate_dealer_id
+def get_dealer_reviews(request, dealer_id):
+
+    # retrieve dealer reviews data
+    endpoint = f'/fetchReviews/dealer/{dealer_id}'
+    reviews = get_request(endpoint)
+
+    if not reviews:
+        return JsonResponse({'status': 500, 'message': 'Failed to retrieve reviews data'})
+
+    # perform sentiment analysis in batches
+    review_texts = [r['review'] for r in reviews]
+    sentiment_responses = analyze_reviews_sentiments(review_texts)
+
+    # assign sentiments to reviews
+    for review, sentiment in zip(reviews, sentiment_responses):
+        review['sentiment'] = sentiment['sentiment']
+
+    return JsonResponse({'status': 200, 'reviews': reviews})
 
 
 # Create a `add_review` view to submit a review
