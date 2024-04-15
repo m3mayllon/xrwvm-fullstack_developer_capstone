@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { fetchDealers, fetchDealersByState } from '../../APIs.js';
 import './Dealers.css';
 
+
 const Dealers = () => {
 
   const [dealersList, setDealersList] = useState([]);
   const [statesList, setStatesList] = useState([]);
-  const [LoggedIn, setLoggedIn] = useState(false);
+  const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
     getDealers();
@@ -30,6 +31,28 @@ const Dealers = () => {
       setDealersList(dealers);
     } catch (error) {
       console.error('Error filtering dealers:', error);
+    }
+  };
+
+  const handleLogout = async (e) => {
+    e.preventDefault();
+  
+    // request user logout
+    const response = await fetch('/djangoapp/logout', {
+      method: 'GET',
+    });
+  
+    // check if user is logged out
+    const json = await response.json();
+    if (json) {
+      // remove username from sessionStorage and reload page
+      let username = sessionStorage.getItem('username');
+  
+      sessionStorage.removeItem('username');
+      window.location.reload();
+      alert(username + ' has been logged out.');
+    } else {
+      alert('The user could not be logged out.');
     }
   };
 
@@ -62,7 +85,14 @@ return(
                   <li className='menu-item'><a href='/'>Home</a></li>
                   <li className='menu-item'><a href='/about'>About</a></li>
                   <li className='menu-item'><a href='/contact'>Contact</a></li>
-                  <li className='menu-item'><a href='/login'>Login</a></li>
+                  {loggedIn ? (
+                    <li className='menu-item'>
+                      <span><b>{sessionStorage.getItem('username')}</b></span>
+                      <a href="#" id='logout' onClick={handleLogout}>Logout</a>
+                    </li>
+                  ) : (
+                    <li className='menu-item'><a href='/login'>Login</a></li>
+                  )}
                 </ul>
               </nav>
             </div>
@@ -85,7 +115,7 @@ return(
                   {statesList.sort().map(state => (<option value={state}>{state}</option>))}
               </select>
             </th>
-            {LoggedIn ? (<th className='id-column'>Review</th>):<></>}
+            {loggedIn ? (<th className='id-column'>Review</th>):<></>}
           </tr>
 
           {dealersList.map(dealer => (
@@ -96,7 +126,7 @@ return(
               <td>{dealer['city']}</td>
               <td>{dealer['zip']}</td>
               <td>{dealer['state']}</td>
-              {LoggedIn ? (<td><a href={`/postreview/${dealer['id']}`}>Review-Icon</a></td>):<></>}
+              {loggedIn ? (<td><a href={`/postreview/${dealer['id']}`}>Review-Icon</a></td>):<></>}
             </tr>
           ))}
         </table>
