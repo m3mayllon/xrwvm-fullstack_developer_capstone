@@ -27,3 +27,9 @@
     color: rgba(104, 85, 224, 1);
     text-shadow: 0 0 20px rgba(104, 85, 224, 0.6);
 }
+
+.review-icon {
+    width: 20px;
+    height: auto;
+    position: center;
+}

@@ -127,7 +127,7 @@ return(
               <td>{dealer['city']}</td>
               <td>{dealer['zip']}</td>
               <td>{dealer['state']}</td>
-              {loggedIn ? (<td><a href={`/postreview/${dealer['id']}`}><img className='icon-image' src={write_review_icon} alt='write review'></img></a></td>):<></>}
+              {loggedIn ? (<td><a href={`/postreview/${dealer['id']}`}><img className='review-icon' src={write_review_icon} alt='write review'></img></a></td>):<></>}
             </tr>
           ))}
         </table>
