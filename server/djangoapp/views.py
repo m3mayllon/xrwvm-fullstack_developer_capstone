@@ -168,7 +168,7 @@ def add_review(request):
 
     try:
         data = json.loads(request.body)
-        response = post_review(data)
+        post_review(data)
         return JsonResponse({'status': 200})
 
     except JSONDecodeError:

@@ -15,7 +15,7 @@ def remove_noise(tweet_tokens):
 
     for token, tag in pos_tag(tweet_tokens):
         token = re.sub(
-            'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+#]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', token)
+            r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+#]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', '', token)
         token = re.sub('(@[A-Za-z0-9_]+)', '', token)
 
         if tag.startswith('NN'):
