@@ -48,7 +48,6 @@ const Dealers = () => {
     if (json) {
       // remove username from sessionStorage and reload page
       let username = sessionStorage.getItem('username');
-  
       sessionStorage.removeItem('username');
       window.location.reload();
       alert(username + ' has been logged out.');
