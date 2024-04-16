@@ -1,35 +1,31 @@
-from flask import Flask
-from nltk.sentiment import SentimentIntensityAnalyzer
 import json
-app = Flask('Sentiment Analyzer')
-
-sia = SentimentIntensityAnalyzer()
-
-
-@app.get('/')
-def home():
-    return 'Welcome to the Sentiment Analyzer. \
-    Use /analyze/text to get the sentiment'
+from flask import Flask
+from sentiment.scm import sentiment_classifier_model, text_sentiment
 
 
-@app.get('/analyze/<input_txt>')
-def analyze_sentiment(input_txt):
+SCM = None
 
-    scores = sia.polarity_scores(input_txt)
 
-    pos = float(scores['pos'])
-    neg = float(scores['neg'])
-    neu = float(scores['neu'])
-    res = 'positive'
+def create_app():
 
-    if (neg > pos and neg > neu):
-        res = 'negative'
+    global SCM
+    app = Flask('Sentiment Analyzer')
 
-    elif (neu > neg and neu > pos):
-        res = 'neutral'
+    # initialize the sentiment classifier model
+    SCM = sentiment_classifier_model()
 
-    return json.dumps({'sentiment': res})
+    @app.route('/')
+    def home():
+        return 'Welcome to the Sentiment Analyzer. Use /analyze/text to get the sentiment'
+
+    @app.route('/analyze/<input_txt>')
+    def analyze_sentiment(input_txt):
+        sentiment = text_sentiment(SCM, input_txt)
+        return json.dumps({'sentiment': sentiment})
+
+    return app
 
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(port=5050, debug=True)
