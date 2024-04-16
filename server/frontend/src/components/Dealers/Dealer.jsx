@@ -140,7 +140,7 @@ return(
                 <img className='sentiment-icon' src={sentimentIcon(review.sentiment)} alt={review.sentiment}/>
                 <span className='review-sentiment'>{review.sentiment}</span>
               </div>
-              <div className='review'>"{review.review}"</div>
+              <div className='review'>"{review.review.trim()}"</div>
               <div className='review-footer'>
                 <div className='vehicle'>{review.car_make} {review.car_model} {review.car_year}</div>
                 <div className='reviewer'>{review.name}, purchased on {review.purchase_date}</div>

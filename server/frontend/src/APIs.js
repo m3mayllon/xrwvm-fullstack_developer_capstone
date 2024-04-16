@@ -1,7 +1,23 @@
+const carModelsUrl = "/djangoapp/get_cars";
 const dealersUrl = "/djangoapp/get_dealers";
 const dealerUrl = "/djangoapp/dealer/";
 const reviewsUrl = "/djangoapp/reviews/dealer/";
-const postReviewUrl = "/djangoapp/postreview/";
+const addReviewUrl = "/djangoapp/add_review";
+
+export const fetchCarModels = async () => {
+  try {
+    const response = await fetch(carModelsUrl);
+    const data = await response.json();
+    if (data.status === 200) {
+      return data.carModels;
+    } else {
+      throw new Error("Failed to fetch car models");
+    }
+  } catch (error) {
+    console.error("Error fetching car models:", error);
+    throw error;
+  }
+};
 
 export const fetchDealers = async () => {
   try {
@@ -60,5 +76,24 @@ export const fetchDealerReviews = async (dealer_id) => {
   } catch (error) {
     console.error("Error fetching dealers:", error);
     throw error;
+  }
+};
+
+export const postDealerReview = async (new_review) => {
+  try {
+    const response = await fetch(addReviewUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: new_review,
+    });
+    const data = await response.json();
+    if (data.status === 200) {
+      return true;
+    } else {
+      throw new Error("Failed to add dealer review");
+    }
+  } catch (error) {
+    console.error("Error adding dealer review:", error);
+    return false;
   }
 };
