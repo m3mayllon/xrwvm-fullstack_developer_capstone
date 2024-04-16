@@ -14,7 +14,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from .decorators import validate_dealer_id
-from .models import CarMake, CarModel
+from .models import CarModel
 from .populate import initiate_cars
 from .restapis import get_request, analyze_reviews_sentiments, post_review
 
@@ -94,11 +94,10 @@ def get_cars(request):
     car_models = CarModel.objects.select_related('car_make').values(
         'name', 'car_make__name', 'body_style', 'year', 'milage', 'transmission', 'drivetrain', 'exterior_colour')
 
-    data = {}
+    data = []
     for car in car_models:
-        car_make = car['car_make__name']
-
         car_model = {
+            'make': car['car_make__name'],
             'model': car['name'],
             'body': car['body_style'],
             'year': car['year'],
@@ -107,13 +106,9 @@ def get_cars(request):
             'drivetrain': car['drivetrain'],
             'colour': car['exterior_colour']
         }
+        data.append(car_model)
 
-        if car_make in data:
-            data[car_make].append(car_model)
-        else:
-            data[car_make] = [car_model]
-
-    return JsonResponse({'make': data})
+    return JsonResponse({'status': 200, 'carModels': data})
 
 
 def get_dealerships(request, state='All'):
