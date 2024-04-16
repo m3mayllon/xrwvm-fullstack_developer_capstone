@@ -20,7 +20,7 @@ def create_app():
 
     @app.route('/analyze/<input_txt>')
     def analyze_sentiment(input_txt):
-        sentiment = text_sentiment(SCM, input_txt)
+        sentiment = text_sentiment(SCM, input_txt).lower()
         return json.dumps({'sentiment': sentiment})
 
     return app
